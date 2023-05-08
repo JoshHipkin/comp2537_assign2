@@ -1,0 +1,19 @@
+<%- include("templates/header") %>
+<h1 class="text-center mt-5">Welcome to the elite members club, <%- name %></h1>
+
+<div class="row mb-3 text-center mt-5">
+    <div class="col-md-4 themed-grid-col">
+      <img src="/<%- images[0] %>" class="img-fluid custom-image" />
+    </div>
+    <div class="col-md-4 themed-grid-col">
+      <img src="/<%- images[1] %>" class="img-fluid custom-image" />
+    </div>
+    <div class="col-md-4 themed-grid-col">          
+      <img src="/<%- images[2] %>" class="img-fluid custom-image" />
+    </div>
+  </div>
+  <div class="text-center mt-4">
+    <a href="/admin"><button class="btn btn-success">admin page</button></a>
+    <a href="/logout"><button class="btn btn-outline-secondary">Logout</button></a>
+  </div>
+<%- include("templates/footer") %>

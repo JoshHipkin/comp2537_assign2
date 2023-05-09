@@ -248,7 +248,7 @@ var name = req.session.name;
   res.render("members", {name: name, images: imageUrl});
 });
 
-app.get("/admin", adminAuthorization, sessionValidation, async (req, res) => {
+app.get("/admin", sessionValidation, adminAuthorization, async (req, res) => {
     const result = await userCollection.find()
     .project({name: 1, email: 1, user_type: 1})
     .toArray();

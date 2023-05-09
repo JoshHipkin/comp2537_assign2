@@ -47,6 +47,40 @@ app.use(
   })
 );
 
+function isValidSession(req) {
+  if (req.session.authenticated) {
+    return true;
+  }
+  return false;
+}
+
+function sessionValidation(req, res, next) {
+  if (isValidSession(req)) {
+    next();
+  }
+  else {
+    res.redirect('/login');
+  }
+}
+
+function isAdmin(req) {
+  if (req.session.user_type == 'admin') {
+    return true;
+  }
+  return false;
+}
+
+function adminAuthorization(req, res, next) {
+  if (!isAdmin(req)) {
+    res.status(403);
+    res.render('403');
+    return;
+  }
+  else {
+    next();
+  }
+}
+
 app.get("/", (req, res) => {
   if (!req.session.authenticated) {
     res.render("index");
@@ -214,7 +248,7 @@ var name = req.session.name;
   res.render("members", {name: name, images: imageUrl});
 });
 
-app.get("/admin", async (req, res) => {
+app.get("/admin", adminAuthorization, sessionValidation, async (req, res) => {
   if (req.session.authenticated && req.session.user_type == "admin") {
     const result = await userCollection.find()
     .project({name: 1, email: 1, user_type: 1})

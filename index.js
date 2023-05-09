@@ -249,18 +249,10 @@ var name = req.session.name;
 });
 
 app.get("/admin", adminAuthorization, sessionValidation, async (req, res) => {
-  if (req.session.authenticated && req.session.user_type == "admin") {
     const result = await userCollection.find()
     .project({name: 1, email: 1, user_type: 1})
     .toArray();
     res.render("admin", {users: result});
-    return;
-  } else if (req.session.authenticated) {
-    res.render("403");
-    return;
-  } else {
-    res.redirect("/");
-  }
 });
 
 app.post("/promote", async (req, res) => {
